@@ -40,9 +40,14 @@ public class Servlet extends HttpServlet {
             throws javax.servlet.ServletException, java.io.IOException {
         boolean secure = req.isSecure() || !PRODUCTION;
         if (secure && "POST".equals(req.getMethod())) {
+            String q = req.getParameter("q");
             String guid = req.getParameter("guid");
             String address = req.getParameter("address");
-            if (guid != null && address != null && guid.length() > 0 && address.length() > 0 &&
+            if ("a".equals(q)) {
+                res.getOutputStream().write(req.getRemoteAddr().getBytes());
+                res.setStatus(200);
+                return;
+            } else if (guid != null && address != null && guid.length() > 0 && address.length() > 0 &&
                 address.equals(req.getRemoteAddr())) {
                 Data data = new Data();
                 data.address = address;
